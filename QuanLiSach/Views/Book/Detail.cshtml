@@ -1,0 +1,65 @@
+﻿@model QuanLiSach.Models.Book
+
+@{
+    ViewData["Title"] = "Chi tiết sách";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-4" style="max-width: 900px;">
+    <div class="card shadow-sm">
+        <div class="card-header bg-info text-white">
+            <h4 class="mb-0">Chi tiết thông tin sách</h4>
+        </div>
+        <div class="card-body">
+            <div class="row align-items-start">
+                <!-- Cột hiển thị ảnh bìa -->
+                <div class="col-md-4 text-center mb-3 mb-md-0">
+                    <img src="~/Image/@(string.IsNullOrEmpty(Model.Cover) ? "default-book.png" : Model.Cover)"
+                         class="img-fluid rounded shadow border p-2"
+                         style="max-height: 320px; object-fit: cover;"
+                         alt="@Model.Title" />
+                </div>
+
+                <!-- Cột hiển thị thông tin -->
+                <div class="col-md-8">
+                    <h2 class="text-primary fw-bold">@Model.Title</h2>
+                    <p class="text-muted mb-2"><strong>Mã sách (ID):</strong> @Model.Id</p>
+                    <hr />
+
+                    <div class="row mb-2">
+                        <div class="col-sm-4 fw-bold text-secondary">Tác giả:</div>
+                        <div class="col-sm-8">@Model.Author</div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-4 fw-bold text-secondary">Nhà xuất bản:</div>
+                        <div class="col-sm-8">@Model.Publisher</div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-4 fw-bold text-secondary">Năm xuất bản:</div>
+                        <div class="col-sm-8">@Model.Year</div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-4 fw-bold text-secondary">Giá bán:</div>
+                        <div class="col-sm-8 text-danger fw-bold fs-5">
+                            @string.Format("{0:N0} đ", Model.Price)
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-4 fw-bold text-secondary">Mô tả:</div>
+                        <div class="col-sm-8 text-break">
+                            @(string.IsNullOrEmpty(Model.Description) ? "Không có mô tả." : Model.Description)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-light d-flex justify-content-between">
+            <a asp-action="Index" class="btn btn-outline-secondary">Quay lại danh sách</a>
+            <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning px-4">Chỉnh sửa</a>
+        </div>
+    </div>
+</div>
