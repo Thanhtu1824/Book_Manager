@@ -1,10 +1,16 @@
+using Microsoft.EntityFrameworkCore;
 using QuanLiSach.Models;
+using QuanLiSach.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
+builder.Services.AddScoped<IBookRepository, EFBookRepository>();
 
-builder.Services.AddSingleton<IBookRepository, MockBookRepository>();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

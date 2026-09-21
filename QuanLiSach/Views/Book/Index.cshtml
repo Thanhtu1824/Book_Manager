@@ -1,4 +1,4 @@
-﻿@using System.Collections;
+﻿@using System.Collections
 @model IEnumerable<QuanLiSach.Models.Book>
 @{
     ViewData["Title"] = "Danh sách sách";
@@ -6,68 +6,50 @@
 }
 
 <div class="container my-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h2 text-primary m-0">Quản lý sách</h1>
-        <a asp-controller="Book" asp-action="Add" class="btn btn-success">
-            <i class="bi bi-plus-lg"></i> Thêm sách mới
-        </a>
-    </div>
-
-    <div class="card shadow-sm">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover table-striped align-middle text-center m-0">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col" style="width: 5%;">ID</th>
-                            <th scope="col" class="text-start" style="width: 20%;">Tên sách</th>
-                            <th scope="col" class="text-start" style="width: 15%;">Tác giả</th>
-                            <th scope="col" style="width: 15%;">Nhà xuất bản</th>
-                            <th scope="col" style="width: 8%;">Năm XB</th>
-                            <th scope="col" style="width: 12%;">Ảnh bìa</th>
-                            <th scope="col" style="width: 10%;">Giá bán</th>
-                            <th scope="col" style="width: 15%;">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model != null && Model.Any())
-                        {
-                            @foreach (var book in Model)
-                            {
-                                <tr>
-                                    <td class="fw-bold">@book.Id</td>
-                                    <td class="text-start fw-semibold">@book.Title</td>
-                                    <td class="text-start">@book.Author</td>
-                                    <td>@book.Publisher</td>
-                                    <td>@book.Year</td>
-                                    <td>
-                                        <img src="~/Image/@(string.IsNullOrEmpty(book.Cover) ? "default-book.png" : book.Cover)"
-                                             class="img-thumbnail rounded shadow-sm"
-                                             style="width: 90px; height: 120px; object-fit: cover;"
-                                             alt="@book.Title" />
-                                    </td>
-                                    <td class="text-danger fw-bold">
-                                        @string.Format("{0:N0} đ", book.Price)
-                                    </td>
-                                    <td>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <a asp-action="Detail" asp-route-id="@book.Id" class="btn btn-outline-info" title="Chi tiết">Chi tiết</a>
-                                            <a asp-action="Update" asp-route-id="@book.Id" class="btn btn-outline-warning" title="Sửa">Sửa</a>
-                                            <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-outline-danger" title="Xóa">Xóa</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="8" class="text-center py-4 text-muted">Chưa có dữ liệu sách.</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Danh sách sách</h2>
+        <div>
+            <a asp-action="Add" class="btn btn-primary">Thêm sách mới</a>
+            <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">Quản lý danh mục</a>
         </div>
     </div>
+
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Hình ảnh</th>
+                <th>Tên sách</th>
+                <th>Thể loại</th>
+                <th>Tác giả</th>
+                <th>Nhà xuất bản</th>
+                <th>Giá bán</th>
+                <th class="text-center">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model)
+            {
+                <tr>
+                    <td>@book.Id</td>
+                    <td>
+                        <img src="~/images/@(string.IsNullOrEmpty(book.Cover) ? "default-book.png" : book.Cover)"
+                             alt="@book.Title" width="80" class="img-thumbnail" />
+                    </td>
+                    <td><strong>@book.Title</strong></td>
+                    <td>
+                        <span class="badge bg-info text-dark">@(book.Category?.Name ?? "Chưa phân loại")</span>
+                    </td>
+                    <td>@book.Author</td>
+                    <td>@book.Publisher</td>
+                    <td class="text-danger fw-bold">@string.Format("{0:N0} đ", book.Price)</td>
+                    <td class="text-center">
+                        <a asp-action="Detail" asp-route-id="@book.Id" class="btn btn-sm btn-info">Chi tiết</a>
+                        <a asp-action="Update" asp-route-id="@book.Id" class="btn btn-sm btn-warning">Sửa</a>
+                        <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-sm btn-danger">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

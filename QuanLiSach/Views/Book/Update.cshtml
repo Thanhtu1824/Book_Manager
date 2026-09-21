@@ -28,6 +28,14 @@
                     </div>
 
                     <div class="col-md-6">
+                        <label asp-for="CategoryId" class="form-label fw-bold">Thể loại</label>
+                        <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories" required>
+                            <option value="">-- Chọn thể loại --</option>
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
                         <label asp-for="Author" class="form-label fw-bold">Tác giả</label>
                         <input asp-for="Author" class="form-control" />
                         <span asp-validation-for="Author" class="text-danger"></span>
@@ -51,18 +59,21 @@
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
 
-                    <!-- Hiển thị ảnh hiện tại và cho phép chọn ảnh mới -->
+                    <!-- 1. Thẻ ẩn giữ lại tên file ảnh cũ -->
+                    <input type="hidden" asp-for="Cover" />
+
                     <div class="col-12">
                         <label class="form-label fw-bold">Ảnh bìa hiện tại</label>
                         <div class="mb-2">
-                            <img src="~/Image/@(string.IsNullOrEmpty(Model.Cover) ? "default-book.png" : Model.Cover)"
+                            <img src="~/images/@(string.IsNullOrEmpty(Model.Cover) ? "default-book.png" : Model.Cover)"
                                  class="img-thumbnail"
                                  style="width: 100px; height: 130px; object-fit: cover;"
                                  alt="@Model.Title" />
                         </div>
-                        <label asp-for="Cover" class="form-label fw-bold">Thay đổi ảnh bìa (nếu có)</label>
-                        <input asp-for="Cover" type="file" class="form-control" accept="image/*" />
-                        <span asp-validation-for="Cover" class="text-danger"></span>
+
+                        <label class="form-label fw-bold">Thay đổi ảnh bìa (nếu có)</label>
+                        <!-- 2. Đặt name="coverFile" dạng file tùy chọn (không gán asp-for trực tiếp vào Cover) -->
+                        <input type="file" name="coverFile" class="form-control" accept="image/*" />
                     </div>
 
                     <div class="col-12">
